@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract HelloWorld {
+    string public message;
+    address public owner;
+
+    // コンストラクタ：メッセージ初期化とオーナー設定
+    constructor(string memory _message) {
+        message = _message;
+        owner = msg.sender;
+    }
+    // メッセージを取得
+    function getMessage() public view returns (string memory) {
+        return message;
+    }
+    // メッセージを更新（オーナーのみ許可）    
+    function setMessage(string memory _newMessage) public {
+        require(msg.sender == owner,"You are not the owner!");
+        message = _newMessage;
+    }
+
+}
