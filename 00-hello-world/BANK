@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+contract EventText {
+    address public owner;    
+    mapping (address => uint256) public balances;
+    event Deposit (address indexed user, uint account);
+    event Withdraw (address indexed user, uint account);
+
+    // コンストラクタ：
+    constructor() {
+        owner   = msg.sender;
+    }
+    //預かり入れ
+    function deposit() public payable   {
+        balances[msg.sender] += msg.value;
+        emit Deposit(msg.sender, msg.value);
+    }
+    //引き落とし
+    function withdraw (uint _amount) public {
+        uint e_amount = _amount * 1 ether;
+        require (balances[msg.sender] >= e_amount , 'Insufficient Balance');
+        balances[msg.sender] -= e_amount;
+        payable (msg.sender).transfer(e_amount);
+        emit Withdraw(msg.sender,e_amount) ;
+    }
+}
