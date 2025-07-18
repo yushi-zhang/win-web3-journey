@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract UserRegister {
+    // ユーザー情報を格納する構造体
+    struct user {
+        string name;  // ユーザーの名前
+        int age;      // ユーザーの年齢
+    }
+
+    // アドレスごとにユーザー情報を保存するマッピング
+    mapping (address => user) public userInfo;
+
+    // ユーザー登録関数：名前と年齢を保存
+    function register(string memory _name, int _age) public {
+        userInfo[msg.sender] = user(_name, _age);
+    }
+
+    // 呼び出したユーザーのアドレスを返す
+    function getadress() public view returns (address) {
+        return (msg.sender);
+    }
+
+    // 登録済みのユーザー情報を取得（名前と年齢を返す）
+    function getUserInfo() public view returns (string memory, int) {
+        return (userInfo[msg.sender].name, userInfo[msg.sender].age);
+    }
+}
